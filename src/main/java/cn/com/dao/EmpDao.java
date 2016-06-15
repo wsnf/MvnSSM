@@ -9,4 +9,5 @@ public interface EmpDao {
 	public boolean addUser(Emp emp);
 	public List<Emp> findAll();
 	public boolean deleteById(int id);
+	public Emp queryEmp(Emp emp);
 }

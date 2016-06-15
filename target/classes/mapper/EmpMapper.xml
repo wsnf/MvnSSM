@@ -5,7 +5,7 @@
 <mapper namespace="cn.com.dao.EmpDao">
 	
 	<insert id="addEmp" parameterType="Emp">
-		insert emp(uname,pwd,email,phone) values(#{uname},#{pwd},#{email},#{phone})
+		insert into emp(uname,pwd,email,phone) values(#{uname},#{pwd},#{email},#{phone})
 	</insert>
 	
 	<select id="findAll" resultType="Emp">
@@ -15,4 +15,8 @@
 	<delete id="deleteById" parameterType="int">
 		delete from emp where id=#{id}
 	</delete>
+	
+	<select id="queryEmp" resultType="Emp">
+		select * from emp where uname=#{uname} and pwd=#{pwd}
+	</select>
 </mapper>

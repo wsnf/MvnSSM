@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         <!-- 命名空间 -->
     <typeAliases>
          <typeAlias alias="Emp" type="cn.com.bean.Emp"/>
-         
+         <typeAlias alias="Expense" type="cn.com.bean.Expense"/>
     </typeAliases>
  
     <!-- 映射map -->

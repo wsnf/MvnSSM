@@ -28,4 +28,9 @@ public class EmpServiceImpl implements EmpService {
 		return false;
 	}
 
+	public Emp queryEmp(Emp emp) {
+		Emp e = empDao.queryEmp(emp);
+ 		return e;
+	}
+
 }
