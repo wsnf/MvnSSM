@@ -2,9 +2,11 @@ package cn.com.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.junit.runners.Parameterized.Parameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -13,6 +15,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import cn.com.bean.Emp;
 import cn.com.bean.Expense;
@@ -58,5 +61,20 @@ public class ExpenseController {
 		expense.setEmp((Emp) session.getAttribute("emp"));
 		expenseService.add(expense);
 		return "redirect:/expenseCtrl/getAll.do";
+	}
+	
+	@RequestMapping("queryPage")
+	public String queryPage(ModelMap mp,int page){
+		int count = expenseService.getPageCount();
+		int pageCount = (count%15)>0?(count/15+1):(count/15);
+		if (page>pageCount) {
+			page = pageCount;
+		}
+		
+		int offset = (page-1)*15;
+		List<Expense> list = expenseService.queryPage(offset);
+		mp.put("currentPage", page);
+		mp.put("expenseList", list);
+		return "reimburse";
 	}
 }

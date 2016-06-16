@@ -40,4 +40,14 @@ public class ExpenseServiceImpl implements ExpenseService {
 		return false;
 	}
 
+	public List<Expense> queryPage(int offset) {
+		List<Expense> list = expenseDao.queryPage(offset);
+		return list;
+	}
+
+	public int getPageCount() {
+		
+		return expenseDao.getPageCount();
+	}
+
 }

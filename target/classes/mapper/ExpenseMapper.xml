@@ -17,5 +17,11 @@
 	<insert id="add">
 		insert into expense(empid,local,payname,price,startdate,enddate,abstracts) values(#{emp.id},#{local},#{payname},#{price},#{startDate},#{endDate},#{abstracts})
 	</insert>
+	<select id="getPageCount" resultType="int">
+		select count(*) from expense
+	</select>
+	<select id="queryPage" parameterType="int" resultType="Expense">
+		select * from expense limit #{offset},15
+	</select>
 	
 </mapper>

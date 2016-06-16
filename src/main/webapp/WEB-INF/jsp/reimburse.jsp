@@ -109,27 +109,31 @@
 								<td>${expense.startDate }</td>
 								<td>${expense.endDate }</td>
 								<td>${expense.abstracts }</td>
-								<td><a href="<%=path %>/expenseCtrl/delete.do?id=${expense.id }" class="btn btn-danger" onclick="return deleteConfirm();">删除</a></td>
+								<td>
+									<div class="btn btn-info" data-expense="${expense }"
+									 onclick="edit(${expense.id },${expense.local },${expense.payname },${expense.price },${expense.startDate },${expense.endDate },${expense.abstracts })"
+									 data-toggle="modal" data-target="#editModal">编辑</div>
+									<a href="<%=path %>/expenseCtrl/delete.do?id=${expense.id }" class="btn btn-danger" onclick="return deleteConfirm();">删除</a>
+								</td>
 							</tr>
 						</c:forEach>
-						
 						
 					</tbody>	
 				</table>
 				<nav class="pull-right">
 					<ul class="pagination pagination-lg">
 						<li>
-							<a href="">
+							<a class="btn" onclick="getPage('back',${currentPage});">
 								<span>&laquo;</span>
 							</a>
 						</li>
-						<li><a href="#">1</a></li>
-					    <li><a href="#">2</a></li>
-					    <li><a href="#">3</a></li>
-					    <li><a href="#">4</a></li>
-					    <li><a href="#">5</a></li>
+						<li><a class="btn" onclick="getPage('nan',1);">1</a></li>
+					    <li><a class="btn" onclick="getPage('nan',2);">2</a></li>
+					    <li><a class="btn" onclick="getPage('nan',3);">3</a></li>
+					    <li><a class="btn" onclick="getPage('nan',4);">4</a></li>
+					    <li><a class="btn" onclick="getPage('nan',5);">5</a></li>
 					    <li>
-					      <a href="#" aria-label="Next">
+					      <a class="btn" onclick="getPage('next',${currentPage});" aria-label="Next">
 					        <span aria-hidden="true">&raquo;</span>
 					      </a>
 					    </li>
@@ -146,6 +150,23 @@
 					return true;
 				else
 					return false;
+			}
+			function edit(id,local,payname,price,startdate,enddate,abstracts){
+				$("#edit-local").val(local);
+			}
+			
+			function getPage(operate,page){
+				
+				if(operate=='back'){
+					page = page-1;
+					if(page==0)
+						page=1;
+				}
+				if(operate=='next'){
+					page = page+1;
+				}
+				var path = "<%=path %>/expenseCtrl/queryPage.do?page="+page;
+				window.location.href=path;
 			}
 		</script>
 	</body>

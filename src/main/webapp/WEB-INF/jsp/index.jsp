@@ -23,7 +23,7 @@
 				<div class="collapse navbar-collapse">
 					
 					<ul class="nav navbar-nav" id="mytab">
-						<li class="active"><a href="<%=path %>/expenseCtrl/getAll.do" target="mainFrame">报销单 </a></li>
+						<li class="active"><a href="<%=path %>/expenseCtrl/queryPage.do?page=1" target="mainFrame">报销单 </a></li>
 						<li><a href="#">link2</a> </li>
 						<li><a href="#">link2</a> </li>
 					</ul>
@@ -59,7 +59,7 @@
 		</nav>
 		
 		<div style="height: 50px;"></div>
-		<iframe src="<%=path %>/expenseCtrl/getAll.do" name="mainFrame" id="framePage" frameborder="0"
+		<iframe src="<%=path %>/expenseCtrl/queryPage.do?page=1" name="mainFrame" id="framePage" frameborder="0"
 			style="width: 100%;height: 620px;padding-top: 20px;">
 			
 		</iframe>
