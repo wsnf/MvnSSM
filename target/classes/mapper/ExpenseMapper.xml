@@ -5,7 +5,7 @@
 <mapper namespace="cn.com.dao.ExpenseDao"> 
 	
 	<select id="queryAll" resultType="Expense">
-	     select * from expense
+	     select * from expense order by id desc
 	</select>
 	<delete id="deleteById" parameterType="int"> 
 		delete from expense where id=#{id}
@@ -21,7 +21,7 @@
 		select count(*) from expense
 	</select>
 	<select id="queryPage" parameterType="int" resultType="Expense">
-		select * from expense limit #{offset},15
+		select * from expense order by id desc limit #{offset},15
 	</select>
 	
 </mapper>

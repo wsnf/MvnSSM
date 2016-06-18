@@ -6,13 +6,23 @@
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 			 "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<html ng-app="myApp">
 	<head>
 		<meta charset="UTF-8">
 		<link rel="stylesheet" href="<%=path %>/css/bootstrap.min.css" />
+		<style>
+	        .page-list .pagination {float:left;}
+	        .page-list .pagination span {cursor: pointer;}
+	        .page-list .pagination .separate span{cursor: default; border-top:none;border-bottom:none;}
+	        .page-list .pagination .separate span:hover {background: none;}
+	        .page-list .page-total {float:left; margin: 25px 20px;}
+	        .page-list .page-total input, .page-list .page-total select{height: 26px; border: 1px solid #ddd;}
+	        .page-list .page-total input {width: 40px; padding-left:3px;}
+	        .page-list .page-total select {width: 50px;}
+	    </style>
 		<title>报销单</title>
 	</head>
-	<body>
+	<body ng-controller="pageCtrl">
 		<div class="container">
 			<div class="panel panel-default">
 				<div class="panel-heading">我的报销单</div>
@@ -27,8 +37,9 @@
 				        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				        <h4 class="modal-title" id="myModalLabel">新增报销单</h4>
 				      </div>
+				      <form  action="<%=path %>/expenseCtrl/addExpense.do" method="post" class="form-horizontal" name="addForm">
 				      <div class="modal-body">
-				        <form  action="<%=path %>/expenseCtrl/addExpense.do" method="post" class="form-horizontal" name="addForm">
+				        
 				        	<div class="form-group">
 		    					<label class="col-sm-2 control-label" for="local"> 
 		    						<span class="glyphicon glyphicon-map-marker"></span>
@@ -100,51 +111,51 @@
 						<td>操作</td>
 					</thead>
 					<tbody>
-						<c:forEach items="${expenseList }" var="expense">
-							<tr>
-								<td>${expense.id }</td>
-								<td>${expense.local }</td>
-								<td>${expense.payname }</td>
-								<td>${expense.price }</td>
-								<td>${expense.startDate }</td>
-								<td>${expense.endDate }</td>
-								<td>${expense.abstracts }</td>
+							<tr ng-repeat="expense in expenseList">
+								<td>{{expense.id }}</td>
+								<td>{{expense.local }}</td>
+								<td>{{expense.payname }}</td>
+								<td>{{expense.price }}</td>
+								<td>{{expense.startDate }}</td>
+								<td>{{expense.endDate }}</td>
+								<td>{{expense.abstracts }}</td>
 								<td>
-									<div class="btn btn-info" data-expense="${expense }"
-									 onclick="edit(${expense.id },${expense.local },${expense.payname },${expense.price },${expense.startDate },${expense.endDate },${expense.abstracts })"
+									<div class="btn btn-info"
 									 data-toggle="modal" data-target="#editModal">编辑</div>
-									<a href="<%=path %>/expenseCtrl/delete.do?id=${expense.id }" class="btn btn-danger" onclick="return deleteConfirm();">删除</a>
+									<a href="<%=path %>/expenseCtrl/delete.do?id={{expense.id }}" class="btn btn-danger" onclick="return deleteConfirm();">删除</a>
 								</td>
 							</tr>
-						</c:forEach>
+						
 						
 					</tbody>	
 				</table>
 				<nav class="pull-right">
-					<ul class="pagination pagination-lg">
-						<li>
-							<a class="btn" onclick="getPage('back',${currentPage});">
-								<span>&laquo;</span>
-							</a>
-						</li>
-						<li><a class="btn" onclick="getPage('nan',1);">1</a></li>
-					    <li><a class="btn" onclick="getPage('nan',2);">2</a></li>
-					    <li><a class="btn" onclick="getPage('nan',3);">3</a></li>
-					    <li><a class="btn" onclick="getPage('nan',4);">4</a></li>
-					    <li><a class="btn" onclick="getPage('nan',5);">5</a></li>
-					    <li>
-					      <a class="btn" onclick="getPage('next',${currentPage});" aria-label="Next">
-					        <span aria-hidden="true">&raquo;</span>
-					      </a>
-					    </li>
-					</ul>
+					<tm-pagination conf="paginationConf"></tm-pagination>
 				</nav>
 			</div>
 		</div>
 		
-		<script type="text/javascript" src="<%=path %>/js/jquery-2.2.4.min.js" ></script>
+		<script type="text/javascript" src="<%=path %>/js/jquery-2.2.4.min.js"></script>
 		<script type="text/javascript" src="<%=path %>/js/bootstrap.min.js" ></script>
+		<script type="text/javascript" src="<%=path %>/js/angular1.2.15.min.js" ></script>
+		<script type="text/javascript" src="<%=path %>/js/tm.pagination.js" ></script>
 		<script>
+			var app = angular.module('myApp',['tm.pagination']);
+			app.controller('pageCtrl',function($scope,$http){
+				$scope.paginationConf = {
+				    currentPage: 1,
+				    totalItems: 64,
+				    itemsPerPage: 15,
+				    pagesLength: 15,
+				    perPageOptions: [10, 20, 30, 40, 50],
+				    onChange: function(){
+						$scope.path = "<%=path %>/expenseCtrl/queryPageJson.do?page="+$scope.paginationConf.currentPage;
+						$http.get($scope.path).success(function(response) {
+					    	$scope.expenseList = response.expenseList;
+					    });
+				    }
+				};
+			});
 			function deleteConfirm(){
 				if(confirm("此操作不可恢复，确认是否删除?"))
 					return true;

@@ -25,7 +25,7 @@
 					<ul class="nav navbar-nav" id="mytab">
 						<li class="active"><a href="<%=path %>/expenseCtrl/queryPage.do?page=1" target="mainFrame">报销单 </a></li>
 						<li><a href="#">link2</a> </li>
-						<li><a href="#">link2</a> </li>
+						<li><a href="#">link3</a> </li>
 					</ul>
 					
 					<!--<form class="navbar-form navbar-left" role="search">
@@ -57,10 +57,9 @@
 				
 			</div>
 		</nav>
-		
-		<div style="height: 50px;"></div>
+
 		<iframe src="<%=path %>/expenseCtrl/queryPage.do?page=1" name="mainFrame" id="framePage" frameborder="0"
-			style="width: 100%;height: 620px;padding-top: 20px;">
+			style="width: 100%;height: 620px;padding-top: 70px;">
 			
 		</iframe>
 		
